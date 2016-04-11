@@ -9,11 +9,11 @@ public class Snake implements ActionListener {
     public JFrame jframe;
 
     public RenderPanel renderPanel;
-
+    // This will make one instance of class Snake. Main can access it directly.
     public static Snake snake;
 
     public Toolkit toolkit;
-
+    // Constructor. This is the first function invoked from main when creating object.
     public Snake() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
@@ -26,6 +26,7 @@ public class Snake implements ActionListener {
 
     public static void main(String[] args) {
         snake = new Snake();
+        //TODO renderPanel to paint with green :D
     }
 
     @Override
