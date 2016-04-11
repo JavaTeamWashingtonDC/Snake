@@ -31,6 +31,6 @@ public class Snake implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+// mitko push
     }
 }
