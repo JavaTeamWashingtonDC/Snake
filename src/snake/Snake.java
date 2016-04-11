@@ -26,7 +26,7 @@ public class Snake implements ActionListener {
 
     public static void main(String[] args) {
         snake = new Snake();
-        //TODO renderPanel to paint with green :D
+        //TODO renderPanel to paint with green :D  hjkjkl;
     }
 
     @Override
