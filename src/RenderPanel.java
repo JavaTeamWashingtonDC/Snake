@@ -4,15 +4,18 @@ import java.awt.*;
 public class RenderPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(Color.green);
-        g.fillRect(0, 0, 800, 700);
         super.paintComponent(g);
+        g.setColor(Color.pink);
+        g.fillRect(0, 0, 700, 600);
         Snake snake = Snake.snake;
+        g.setColor(Color.red);
         for (Point point : snake.snakeParts){
-            g.setColor(Color.RED);
             g.fillRect(point.x * Snake.SCALE, point.y * Snake.SCALE, Snake.SCALE, Snake.SCALE);
         }
         g.fillRect(snake.head.x * Snake.SCALE, snake.head.y * Snake.SCALE,
+                Snake.SCALE,Snake.SCALE);
+        g.setColor(Color.BLUE);
+        g.fillRect(snake.cherry.x * Snake.SCALE, snake.cherry.y * Snake.SCALE,
                 Snake.SCALE,Snake.SCALE);
     }
 }

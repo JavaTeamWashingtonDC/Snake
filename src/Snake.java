@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Snake implements ActionListener {
+public class Snake implements ActionListener, KeyListener {
     public JFrame jframe;
 
     public RenderPanel renderPanel;
@@ -26,7 +28,7 @@ public class Snake implements ActionListener {
 
     public Random random;
 
-    public boolean over = false;
+    public boolean over = false, paused;
 
     public Dimension dim;
 
@@ -34,17 +36,29 @@ public class Snake implements ActionListener {
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
         jframe.setVisible(true);
-        jframe.setSize(800, 700);
+        jframe.setSize(800, 600);
+        jframe.setResizable(false);
         jframe.setLocation((dim.width / 2) - (jframe.getWidth() / 2), (dim.height / 2) - (jframe.getHeight() / 2));
         jframe.add(renderPanel = new RenderPanel());
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        head = new Point(0, 0);
+        jframe.addKeyListener(this);
+        startGame();
+    }
+
+    private void startGame() {
+        over = false;
+        paused = false;
+        score = 0;
+        tailLength = 0;
+        direction = DOWN;
+        head = new Point(0, -1);
         random = new Random();
-        cherry = new Point(dim.width / SCALE, dim.height / SCALE);
-        timer.start();
+        snakeParts.clear();
+        cherry = new Point(1 +random.nextInt(dim.width / SCALE), random.nextInt(dim.height / SCALE));
         for (int i = 0; i < tailLength; i++) {
             snakeParts.add(new Point(head.x,head.y));
         }
+        timer.start();
     }
 
     public static void main(String[] args) {
@@ -57,10 +71,10 @@ public class Snake implements ActionListener {
         renderPanel.repaint();
         ticks++;
 
-        if (ticks % 10 == 0 && head != null && over != true) {
-          snakeParts.add(new Point(head.x,head.y));
+        if (ticks % 5 == 0 && head != null && !over && !paused) {
+            snakeParts.add(new Point(head.x,head.y));
             if (direction == UP) {
-                if (head.y - 1 > 0)
+                if (head.y - 1 >= 0)
                     head = new Point(head.x, head.y - 1);
                 else
                     over = true;
@@ -72,7 +86,7 @@ public class Snake implements ActionListener {
                     over = true;
             }
             if (direction == LEFT) {
-                if (head.x - 1 > 0)
+                if (head.x - 1 >= 0)
                     head = new Point(head.x - 1, head.y);
                 else
                     over = true;
@@ -82,20 +96,47 @@ public class Snake implements ActionListener {
                     head = new Point(head.x + 1, head.y);
                 else
                     over = true;
-
-                for (int i = 0; i < tailLength; i++) {
-                    snakeParts.remove(i);
-                }
-
-
-                if (cherry != null) {
-                    if (head.equals(cherry)) {
-                        score += 10;
-                        tailLength++;
-                        cherry.setLocation(dim.width / SCALE, dim.height / SCALE);
-                    }
+            }
+            if(snakeParts.size() > tailLength){
+                snakeParts.remove(0);
+            }
+            if (cherry != null) {
+                if (head.equals(cherry)) {
+                    score += 10;
+                    tailLength++;
+                    cherry.setLocation(random.nextInt(dim.width / SCALE), random.nextInt(dim.height / SCALE));
                 }
             }
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int i = e.getKeyCode();
+        if(i ==  KeyEvent.VK_A && direction != RIGHT)
+            direction = LEFT;
+        if(i ==  KeyEvent.VK_D && direction != LEFT)
+            direction = RIGHT;
+        if(i ==  KeyEvent.VK_W && direction != DOWN)
+            direction = UP;
+        if(i ==  KeyEvent.VK_S && direction != UP)
+            direction = DOWN;
+        if(i ==  KeyEvent.VK_SPACE) {
+            if (over) {
+                startGame();
+            }else {
+                paused = !paused;
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
