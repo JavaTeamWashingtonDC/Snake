@@ -18,8 +18,6 @@ public class Snake implements ActionListener, KeyListener {
     public Timer timer = new Timer(20, this);
     public Toolkit toolkit;
 
-    // Constructor. This is the first function invoked from main when creating object.
-
     public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
 
     public int ticks = 0, direction = DOWN, score, tailLength = 10;
@@ -32,6 +30,7 @@ public class Snake implements ActionListener, KeyListener {
 
     public Dimension dim;
 
+    // Empty Constructor. This is the first function invoked from main when creating object.
     public Snake() {
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
@@ -72,7 +71,6 @@ public class Snake implements ActionListener, KeyListener {
 
     public static void main(String[] args) {
         snake = new Snake();
-        //TODO renderPanel to paint with green :D  hjkjkl;
     }
 
     @Override
@@ -82,32 +80,23 @@ public class Snake implements ActionListener, KeyListener {
 
         if (ticks % 5 == 0 && head != null && !over && !paused) {
             snakeParts.add(new Point(head.x,head.y));
-            if (direction == UP) {
-                if (head.y - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
+            if (direction == UP)
+                if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 2))
                     head = new Point(head.x, head.y - 1);
-                }
-                else {
+                else
                     over = true;
-                }
-            }
-            if (direction == DOWN) {
-                if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1)) {
+            if (direction == DOWN)
+                if (head.y + 1 < 67 && noTailAt(head.x, head.y + 2))
                     head = new Point(head.x, head.y + 1);
-                }
-                else {
+                else
                     over = true;
-                }
-            }
-            if (direction == LEFT) {
-                if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
+            if (direction == LEFT)
+                if (head.x - 1 >= 0 && noTailAt(head.x - 2, head.y))
                     head = new Point(head.x - 1, head.y);
-                }
-                else {
+                else
                     over = true;
-                }
-            }
             if (direction == RIGHT) {
-                if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
+                if (head.x + 1 < 80 && noTailAt(head.x + 2, head.y)) {
                     head = new Point(head.x + 1, head.y);
                 }
                 else {
