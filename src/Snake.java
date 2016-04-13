@@ -36,7 +36,7 @@ public class Snake implements ActionListener, KeyListener {
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         jframe = new JFrame("Snake");
         jframe.setVisible(true);
-        jframe.setSize(800, 600);
+        jframe.setSize(805, 600);
         jframe.setResizable(false);
         jframe.setLocation((dim.width / 2) - (jframe.getWidth() / 2), (dim.height / 2) - (jframe.getHeight() / 2));
         jframe.add(renderPanel = new RenderPanel());
@@ -45,7 +45,7 @@ public class Snake implements ActionListener, KeyListener {
         startGame();
     }
 
-    private void startGame() {
+    public void startGame() {
         over = false;
         paused = false;
         score = 0;
@@ -54,11 +54,20 @@ public class Snake implements ActionListener, KeyListener {
         head = new Point(0, -1);
         random = new Random();
         snakeParts.clear();
-        cherry = new Point(1 +random.nextInt(dim.width / SCALE), random.nextInt(dim.height / SCALE));
+        cherry = new Point(random.nextInt(79), random.nextInt(66));
         for (int i = 0; i < tailLength; i++) {
             snakeParts.add(new Point(head.x,head.y));
         }
         timer.start();
+    }
+
+    public boolean noTailAt(int x, int y) {
+        for (Point point : snakeParts){
+            if (point.equals(head)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -74,28 +83,36 @@ public class Snake implements ActionListener, KeyListener {
         if (ticks % 5 == 0 && head != null && !over && !paused) {
             snakeParts.add(new Point(head.x,head.y));
             if (direction == UP) {
-                if (head.y - 1 >= 0)
+                if (head.y - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
                     head = new Point(head.x, head.y - 1);
-                else
+                }
+                else {
                     over = true;
+                }
             }
             if (direction == DOWN) {
-                if (head.y + 1 < dim.height / SCALE)
+                if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1)) {
                     head = new Point(head.x, head.y + 1);
-                else
+                }
+                else {
                     over = true;
+                }
             }
             if (direction == LEFT) {
-                if (head.x - 1 >= 0)
+                if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y)) {
                     head = new Point(head.x - 1, head.y);
-                else
+                }
+                else {
                     over = true;
+                }
             }
             if (direction == RIGHT) {
-                if (head.x + 1 < dim.width / SCALE)
+                if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
                     head = new Point(head.x + 1, head.y);
-                else
+                }
+                else {
                     over = true;
+                }
             }
             if(snakeParts.size() > tailLength){
                 snakeParts.remove(0);
@@ -104,7 +121,7 @@ public class Snake implements ActionListener, KeyListener {
                 if (head.equals(cherry)) {
                     score += 10;
                     tailLength++;
-                    cherry.setLocation(random.nextInt(dim.width / SCALE), random.nextInt(dim.height / SCALE));
+                    cherry.setLocation(random.nextInt(79), random.nextInt(66));
                 }
             }
         }
