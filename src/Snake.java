@@ -20,7 +20,7 @@ public class Snake implements ActionListener, KeyListener {
 
     public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
 
-    public int ticks = 0, direction = DOWN, score, tailLength = 10;
+    public int ticks = 0, direction = DOWN, score, tailLength = 10, time;
 
     public Point head, cherry;
 
@@ -47,63 +47,52 @@ public class Snake implements ActionListener, KeyListener {
     public void startGame() {
         over = false;
         paused = false;
+        time = 0;
         score = 0;
         tailLength = 0;
+        ticks = 0;
         direction = DOWN;
         head = new Point(0, -1);
         random = new Random();
         snakeParts.clear();
         cherry = new Point(random.nextInt(79), random.nextInt(66));
-        for (int i = 0; i < tailLength; i++) {
-            snakeParts.add(new Point(head.x,head.y));
-        }
+
         timer.start();
     }
 
-    public boolean noTailAt(int x, int y) {
-        for (Point point : snakeParts){
-            if (point.equals(head)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void main(String[] args) {
-        snake = new Snake();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         renderPanel.repaint();
         ticks++;
 
-        if (ticks % 5 == 0 && head != null && !over && !paused) {
-            snakeParts.add(new Point(head.x,head.y));
+        if (ticks % 2 == 0 && head != null && !over && !paused) {
+            time++;
+            snakeParts.add(new Point(head.x, head.y));
             if (direction == UP)
-                if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 2))
+                if (head.y - 1 >= 0 && noTailAt(head.x, head.y - 1))
                     head = new Point(head.x, head.y - 1);
                 else
                     over = true;
             if (direction == DOWN)
-                if (head.y + 1 < 67 && noTailAt(head.x, head.y + 2))
+                if (head.y + 1 < 67 && noTailAt(head.x, head.y + 1))
                     head = new Point(head.x, head.y + 1);
                 else
                     over = true;
             if (direction == LEFT)
-                if (head.x - 1 >= 0 && noTailAt(head.x - 2, head.y))
+                if (head.x - 1 >= 0 && noTailAt(head.x - 1, head.y))
                     head = new Point(head.x - 1, head.y);
                 else
                     over = true;
             if (direction == RIGHT) {
-                if (head.x + 1 < 80 && noTailAt(head.x + 2, head.y)) {
+                if (head.x + 1 < 80 && noTailAt(head.x + 1, head.y)) {
                     head = new Point(head.x + 1, head.y);
-                }
-                else {
+                } else {
                     over = true;
                 }
             }
-            if(snakeParts.size() > tailLength){
+            snakeParts.add(new Point(head.x, head.y));
+            if (snakeParts.size() > tailLength) {
                 snakeParts.remove(0);
             }
             if (cherry != null) {
@@ -115,6 +104,15 @@ public class Snake implements ActionListener, KeyListener {
             }
         }
     }
+public boolean noTailAt(int x,int y) {
+    for (Point point : snakeParts) {
+        if (point.equals(new Point(x, y))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
     @Override
     public void keyTyped(KeyEvent e) {
