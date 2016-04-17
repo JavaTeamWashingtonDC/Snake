@@ -8,7 +8,7 @@ public class RenderPanel extends JPanel {
         super.paintComponent(g);
         Snake snake = Snake.snake;
         // draw field
-        g.setColor(Color.pink);
+        g.setColor(Color.orange);
         g.fillRect(0, 0, snake.SCREEN_WIDTH, snake.SCREEN_HIGHT - snake.SCALE);
         // draw snake body
         g.setColor(Color.red);
