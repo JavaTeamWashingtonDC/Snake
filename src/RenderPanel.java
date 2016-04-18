@@ -1,17 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class RenderPanel extends JComponent {
 
     private Snake snake;
 
-    RenderPanel(Snake snake) {
+    public RenderPanel(Snake snake) {
         loadPictures();
         this.snake = snake;
     }
@@ -51,13 +48,13 @@ public class RenderPanel extends JComponent {
         String text = "Score: " + Game.getInstance().score + ", Length: " + snake.tailLength + ", Moves: " + Game.getInstance().time;
         g.setColor(Color.BLACK);
         g.setFont(new Font("Verdana", Font.BOLD, 12));
-        g.drawString(text, 10 , Game.SCREEN_HIGHT - 40);
+        g.drawString(text, 10 , Game.SCREEN_HEIGHT - 40);
         // draw pause
         if(Game.getInstance().paused){
             String pauseText = "Paused.";
             g.setColor(Color.DARK_GRAY);
             g.setFont(new Font("Verdana", Font.BOLD, 20));
-            g.drawString(pauseText, 150 , Game.SCREEN_HIGHT / 2);
+            g.drawString(pauseText, 150 , Game.SCREEN_HEIGHT / 2);
         }
     }
 }

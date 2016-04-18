@@ -10,7 +10,7 @@ public class Handler implements ActionListener, KeyListener {
     private static Snake snake;
     private RenderPanel renderPanel;
 
-    public Handler( RenderPanel renderPanel, Snake snake) {
+    public Handler(RenderPanel renderPanel, Snake snake) {
         this.renderPanel = renderPanel;
         this.snake = snake;
     }
@@ -25,24 +25,34 @@ public class Handler implements ActionListener, KeyListener {
             System.out.printf("head: %d, %d\n", snake.head.x, snake.head.y);
             snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
 
-            if (snake.direction == snake.UP)
-                if (snake.head.y - 1 >= 0 && !snake.hasTailAt(snake.head.x, snake.head.y - 1))
+            if (snake.direction == Direction.UP) {
+                if (snake.head.y - 1 >= 0 && !snake.hasTailAt(snake.head.x, snake.head.y - 1)) {
                     snake.head = new Point(snake.head.x, snake.head.y - 1);
-                else
+                } else {
                     Game.getInstance().over = true;
-            if (snake.direction == snake.DOWN)
-                if (snake.head.y +1 < Game.getInstance().SCREEN_HIGHT / Game.getInstance().SCALE && !snake.hasTailAt(snake.head.x, snake.head.y + 1))
+                }
+            }
+            if (snake.direction == Direction.DOWN) {
+                if (snake.head.y + 1 < Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE && !snake.hasTailAt(snake.head.x, snake.head.y + 1)) {
                     snake.head = new Point(snake.head.x, snake.head.y + 1);
-                else
+                } else {
                     Game.getInstance().over = true;
-            if (snake.direction == snake.LEFT)
-                if (snake.head.x - 1 >= 0 && !snake.hasTailAt(snake.head.x - 1, snake.head.y))
+                }
+            }
+
+            if (snake.direction == Direction.LEFT) {
+                if (snake.head.x - 1 >= 0 && !snake.hasTailAt(snake.head.x - 1, snake.head.y)) {
                     snake.head = new Point(snake.head.x - 1, snake.head.y);
-                else
+                } else {
                     Game.getInstance().over = true;
-            if (snake.direction == snake.RIGHT) {
+                }
+            }
+
+            if (snake.direction == Direction.RIGHT) {
                 if (snake.head.x + 1 < Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE && !snake.hasTailAt(snake.head.x + 1, snake.head.y)) {
-                    snake.head = new Point(snake.head.x + 1, snake.head.y);
+                    {
+                        snake.head = new Point(snake.head.x + 1, snake.head.y);
+                    }
                 } else {
                     Game.getInstance().over = true;
                 }
@@ -58,7 +68,7 @@ public class Handler implements ActionListener, KeyListener {
                     snake.tailLength++;
                     snake.cherry.setLocation(
                             Game.getInstance().random.nextInt(Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE),
-                            Game.getInstance().random.nextInt(Game.getInstance().SCREEN_HIGHT / Game.getInstance().SCALE));
+                            Game.getInstance().random.nextInt(Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE));
                 }
             }
         }
@@ -72,26 +82,30 @@ public class Handler implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
-        if(k ==  KeyEvent.VK_A && snake.direction != snake.LEFT && Game.getInstance().isMovedToChangeDirection) {
-            snake.direction = snake.LEFT;
+        if (k == KeyEvent.VK_A && snake.direction != Direction.LEFT && Game.getInstance().isMovedToChangeDirection) {
+            snake.direction = Direction.LEFT;
             Game.getInstance().isMovedToChangeDirection = false;
         }
-        if(k ==  KeyEvent.VK_D && snake.direction != snake.RIGHT && Game.getInstance().isMovedToChangeDirection) {
-            snake.direction = snake.RIGHT;
+
+        if (k == KeyEvent.VK_D && snake.direction != Direction.RIGHT && Game.getInstance().isMovedToChangeDirection) {
+            snake.direction = Direction.RIGHT;
             Game.getInstance().isMovedToChangeDirection = false;
         }
-        if(k ==  KeyEvent.VK_W && snake.direction != snake.DOWN && Game.getInstance().isMovedToChangeDirection) {
-            snake.direction = snake.UP;
+
+        if (k == KeyEvent.VK_W && snake.direction != Direction.DOWN && Game.getInstance().isMovedToChangeDirection) {
+            snake.direction = Direction.UP;
             Game.getInstance().isMovedToChangeDirection = false;
         }
-        if(k ==  KeyEvent.VK_S && snake.direction != snake.UP && Game.getInstance().isMovedToChangeDirection) {
-            snake.direction = snake.DOWN;
+
+        if (k == KeyEvent.VK_S && snake.direction != Direction.UP && Game.getInstance().isMovedToChangeDirection) {
+            snake.direction = Direction.DOWN;
             Game.getInstance().isMovedToChangeDirection = false;
         }
-        if(k ==  KeyEvent.VK_SPACE) {
+
+        if (k == KeyEvent.VK_SPACE) {
             if (Game.getInstance().over) {
                 Game.getInstance().startGame();
-            }else {
+            } else {
                 Game.getInstance().paused = !Game.getInstance().paused;
             }
         }

@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-/**
- * Created by maggie on 18.4.2016 г..
- */
 public class Game {
 
     private Snake snake;
@@ -13,9 +10,9 @@ public class Game {
     private static Game game;
 
     public boolean over = false, paused, isMovedToChangeDirection;
-    public static final int SCREEN_WIDTH = 780, SCREEN_HIGHT = 540;
+    public static final int SCREEN_WIDTH = 780, SCREEN_HEIGHT = 580;
     private Timer timer;
-    public static final int SCALE = 60, SPEED = 150;
+    public static final int SCALE = 60, SPEED = 90;
     public int ticks = 0;
     public int score;
     public int time;
@@ -30,7 +27,7 @@ public class Game {
         JFrame jFrame = new JFrame("Snake");
 
         jFrame.setVisible(true);
-        jFrame.setSize(SCREEN_WIDTH, SCREEN_HIGHT);
+        jFrame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         jFrame.setResizable(false);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,7 +51,7 @@ public class Game {
         ticks = 0;
         snake.restart(random);
 
-        snake.cherry = new Point(random.nextInt(SCREEN_WIDTH / SCALE), random.nextInt(SCREEN_HIGHT / SCALE));
+        snake.cherry = new Point(random.nextInt(SCREEN_WIDTH / SCALE), random.nextInt(SCREEN_HEIGHT / SCALE));
         for (int i = 0; i < snake.tailLength; i++) {
             snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
         }
