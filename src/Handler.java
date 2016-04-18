@@ -66,13 +66,22 @@ public class Handler implements ActionListener, KeyListener {
                 if (snake.head.equals(snake.cherry)) {
                     Game.getInstance().score += 10;
                     snake.tailLength++;
+                    boolean isFoodOnSnake = true;
+                    while(snake.head.equals(snake.cherry)&& isFoodOnSnake)
                     snake.cherry.setLocation(
                             Game.getInstance().random.nextInt(Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE),
                             Game.getInstance().random.nextInt(Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE));
+                        for (Point snakePart: snake.snakeParts) {
+                           if (snakePart.equals(snake.cherry)){
+                               continue;
+                           }
+                        }
+                        isFoodOnSnake = false;
                 }
             }
         }
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
