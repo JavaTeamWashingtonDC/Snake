@@ -22,7 +22,7 @@ public class RenderPanel extends JComponent {
 
     public void loadPictures() {
         try {
-            headImg = ImageIO.read(this.getClass().getResource("pics/headcircle1.png"));
+            headImg = ImageIO.read(this.getClass().getResource("pics/head.png"));
             backgroundImg = ImageIO.read(this.getClass().getResource("pics/background.jpeg"));
             snakeBodyImg = ImageIO.read(this.getClass().getResource("pics/body.png"));
         } catch (IOException e) {
