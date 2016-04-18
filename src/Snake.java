@@ -13,7 +13,7 @@ public class Snake {
 
     public void restart(Random random){
         direction = DOWN;
-        tailLength = 1;
+        tailLength = 0;
         head = new Point(0, 0);
         snakeParts.clear();
         cherry = new Point(
