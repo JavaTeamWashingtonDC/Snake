@@ -71,18 +71,20 @@ public class Handler implements ActionListener, KeyListener {
                         snake.cherry.setLocation(
                                 Game.getInstance().random.nextInt(Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE),
                                 Game.getInstance().random.nextInt(Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE));
-                        for (Point snakePart : snake.snakeParts) {
+                        for (Point snakePart:
+                             snake.snakeParts) {
                             if (snakePart.equals(snake.cherry)) {
-                                continue;
+                                isFoodOnSnake = true;
+                                break;
+                            } else {
+                                isFoodOnSnake = false;
                             }
                         }
-                        isFoodOnSnake = false;
                     }
                 }
             }
         }
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -92,12 +94,12 @@ public class Handler implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
-        if (k == KeyEvent.VK_A && snake.direction != Direction.LEFT && Game.getInstance().isMovedToChangeDirection) {
+        if (k == KeyEvent.VK_A && snake.direction != Direction.RIGHT && Game.getInstance().isMovedToChangeDirection) {
             snake.direction = Direction.LEFT;
             Game.getInstance().isMovedToChangeDirection = false;
         }
 
-        if (k == KeyEvent.VK_D && snake.direction != Direction.RIGHT && Game.getInstance().isMovedToChangeDirection) {
+        if (k == KeyEvent.VK_D && snake.direction != Direction.LEFT && Game.getInstance().isMovedToChangeDirection) {
             snake.direction = Direction.RIGHT;
             Game.getInstance().isMovedToChangeDirection = false;
         }
