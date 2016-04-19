@@ -50,11 +50,6 @@ public class Game {
         score = 0;
         ticks = 0;
         snake.restart(random);
-
-        snake.cherry = new Point(random.nextInt(SCREEN_WIDTH / SCALE), random.nextInt(SCREEN_HEIGHT / SCALE));
-        for (int i = 0; i < snake.tailLength; i++) {
-            snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
-        }
         timer.start();
     }
 

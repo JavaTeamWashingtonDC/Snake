@@ -22,18 +22,24 @@ public class Handler implements ActionListener, KeyListener {
 
         if (Game.getInstance().ticks % 3 == 0 && snake.head != null && !Game.getInstance().over && !Game.getInstance().paused) {
             Game.getInstance().time++;
-            System.out.printf("head: %d, %d\n", snake.head.x, snake.head.y);
-            snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
 
             if (snake.direction == Direction.UP) {
                 if (snake.head.y - 1 >= 0 && !snake.hasTailAt(snake.head.x, snake.head.y - 1)) {
+                    if (snake.snakeParts.size() > snake.tailLength) {
+                        snake.snakeParts.remove(0);
+                    }
+                    snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
                     snake.head = new Point(snake.head.x, snake.head.y - 1);
                 } else {
                     Game.getInstance().over = true;
                 }
             }
             if (snake.direction == Direction.DOWN) {
-                if (snake.head.y + 1 < Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE && !snake.hasTailAt(snake.head.x, snake.head.y + 1)) {
+                if (snake.head.y + 1 < Game.SCREEN_HEIGHT / Game.SCALE && !snake.hasTailAt(snake.head.x, snake.head.y + 1)) {
+                    if (snake.snakeParts.size() > snake.tailLength) {
+                        snake.snakeParts.remove(0);
+                    }
+                    snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
                     snake.head = new Point(snake.head.x, snake.head.y + 1);
                 } else {
                     Game.getInstance().over = true;
@@ -42,6 +48,10 @@ public class Handler implements ActionListener, KeyListener {
 
             if (snake.direction == Direction.LEFT) {
                 if (snake.head.x - 1 >= 0 && !snake.hasTailAt(snake.head.x - 1, snake.head.y)) {
+                    if (snake.snakeParts.size() > snake.tailLength) {
+                        snake.snakeParts.remove(0);
+                    }
+                    snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
                     snake.head = new Point(snake.head.x - 1, snake.head.y);
                 } else {
                     Game.getInstance().over = true;
@@ -49,10 +59,13 @@ public class Handler implements ActionListener, KeyListener {
             }
 
             if (snake.direction == Direction.RIGHT) {
-                if (snake.head.x + 1 < Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE && !snake.hasTailAt(snake.head.x + 1, snake.head.y)) {
-                    {
-                        snake.head = new Point(snake.head.x + 1, snake.head.y);
+                Game.getInstance();
+                if (snake.head.x + 1 < Game.SCREEN_WIDTH / Game.SCALE && !snake.hasTailAt(snake.head.x + 1, snake.head.y)) {
+                    if (snake.snakeParts.size() > snake.tailLength) {
+                        snake.snakeParts.remove(0);
                     }
+                    snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
+                    snake.head = new Point(snake.head.x + 1, snake.head.y);
                 } else {
                     Game.getInstance().over = true;
                 }
@@ -66,13 +79,13 @@ public class Handler implements ActionListener, KeyListener {
                 if (snake.head.equals(snake.cherry)) {
                     Game.getInstance().score += 10;
                     snake.tailLength++;
-                    boolean isFoodOnSnake = true;
-                    while (snake.head.equals(snake.cherry) && isFoodOnSnake) {
+                    // check if food appear on snake
+                    boolean isFoodOnSnake = snake.snakeParts.size() == 0 ? false : true;
+                    while (snake.head.equals(snake.cherry) || isFoodOnSnake) {
                         snake.cherry.setLocation(
-                                Game.getInstance().random.nextInt(Game.getInstance().SCREEN_WIDTH / Game.getInstance().SCALE),
-                                Game.getInstance().random.nextInt(Game.getInstance().SCREEN_HEIGHT / Game.getInstance().SCALE));
-                        for (Point snakePart:
-                             snake.snakeParts) {
+                                Game.getInstance().random.nextInt(Game.SCREEN_WIDTH / Game.SCALE),
+                                Game.getInstance().random.nextInt(Game.SCREEN_HEIGHT / Game.SCALE));
+                        for (Point snakePart : snake.snakeParts) {
                             if (snakePart.equals(snake.cherry)) {
                                 isFoodOnSnake = true;
                                 break;

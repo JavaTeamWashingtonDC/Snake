@@ -26,6 +26,9 @@ public class Snake {
     public boolean hasTailAt(int x, int y) {
         for (Point point : snakeParts) {
             if (point.equals(new Point(x, y))) {
+                if(snakeParts.get(0).equals(new Point(x, y))) {
+                    break;
+                }
                 return true;
             }
         }
