@@ -16,12 +16,14 @@ public class RenderPanel extends JComponent {
     public BufferedImage headImg;
     public BufferedImage backgroundImg;
     public BufferedImage snakeBodyImg;
+    public BufferedImage frog;
 
     public void loadPictures() {
         try {
             headImg = ImageIO.read(this.getClass().getResource("pics/head.png"));
             backgroundImg = ImageIO.read(this.getClass().getResource("pics/backgroundSwamp.jpg"));
             snakeBodyImg = ImageIO.read(this.getClass().getResource("pics/body.png"));
+            frog = ImageIO.read(this.getClass().getResource("pics/frog.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,9 +36,7 @@ public class RenderPanel extends JComponent {
         // draw field
         g.drawImage(backgroundImg, 0, 0, null);
         // draw food
-        g.setColor(Color.BLUE);
-        g.fillRect(snake.cherry.x * Game.SCALE, snake.cherry.y * Game.SCALE,
-                Game.SCALE,Game.SCALE);
+        g.drawImage(frog, snake.cherry.x * Game.SCALE, snake.cherry.y * Game.SCALE, null);
         // draw snake body
         g.setColor(Color.red);
         for (Point point : snake.snakeParts){
