@@ -66,10 +66,21 @@ public class RenderPanel extends JComponent {
         g.drawString(text, 10 , Game.SCREEN_HEIGHT - 40);
         // draw pause
         if(Game.getInstance().paused){
-            String pauseText = "Paused.";
-            g.setColor(Color.DARK_GRAY);
-            g.setFont(new Font("Verdana", Font.BOLD, 20));
+            String pauseText = "Paused";
+            g.setColor(Color.red);
+            g.setFont(new Font("Verdana", Font.BOLD, 35));
             g.drawString(pauseText, 150 , Game.SCREEN_HEIGHT / 2);
+        }
+
+        if(Game.getInstance().over){
+            String gameOver = "GAME OVER";
+            g.setColor(Color.red);
+            g.setFont(new Font("Verdana", Font.BOLD, 35));
+            g.drawString(gameOver, 200 , Game.SCREEN_HEIGHT/2 - 50);
+            String press = "press space to resume";
+            g.setColor(Color.red);
+            g.setFont(new Font("Verdana", Font.ITALIC, 20));
+            g.drawString(press, 200 , Game.SCREEN_HEIGHT/2);
         }
     }
 }
