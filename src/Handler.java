@@ -4,7 +4,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+/**
+ * Class for handling events
+ */
 public class Handler implements ActionListener, KeyListener {
 
     private static Snake snake;
@@ -15,6 +17,11 @@ public class Handler implements ActionListener, KeyListener {
         this.snake = snake;
     }
 
+    /**
+     *  Logic for movement is here. Every tick the snake makes a step. Calls RenderPanel to repaint.
+     *  Here are incremented the points of the snake body with appropriate direction.
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         renderPanel.repaint();
@@ -25,7 +32,7 @@ public class Handler implements ActionListener, KeyListener {
 
             if (snake.direction == Direction.UP) {
                 if (snake.head.y - 1 >= 0 && !snake.hasTailAt(snake.head.x, snake.head.y - 1)) {
-                    if (snake.snakeParts.size() > snake.tailLength) {
+                    if (snake.snakeParts.size() > snake.getTailLength()) {
                         snake.snakeParts.remove(0);
                     }
                     snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
@@ -36,7 +43,7 @@ public class Handler implements ActionListener, KeyListener {
             }
             if (snake.direction == Direction.DOWN) {
                 if (snake.head.y + 1 < Game.SCREEN_HEIGHT / Game.SCALE && !snake.hasTailAt(snake.head.x, snake.head.y + 1)) {
-                    if (snake.snakeParts.size() > snake.tailLength) {
+                    if (snake.snakeParts.size() > snake.getTailLength()) {
                         snake.snakeParts.remove(0);
                     }
                     snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
@@ -48,7 +55,7 @@ public class Handler implements ActionListener, KeyListener {
 
             if (snake.direction == Direction.LEFT) {
                 if (snake.head.x - 1 >= 0 && !snake.hasTailAt(snake.head.x - 1, snake.head.y)) {
-                    if (snake.snakeParts.size() > snake.tailLength) {
+                    if (snake.snakeParts.size() > snake.getTailLength()) {
                         snake.snakeParts.remove(0);
                     }
                     snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
@@ -61,7 +68,7 @@ public class Handler implements ActionListener, KeyListener {
             if (snake.direction == Direction.RIGHT) {
                 Game.getInstance();
                 if (snake.head.x + 1 < Game.SCREEN_WIDTH / Game.SCALE && !snake.hasTailAt(snake.head.x + 1, snake.head.y)) {
-                    if (snake.snakeParts.size() > snake.tailLength) {
+                    if (snake.snakeParts.size() > snake.getTailLength()) {
                         snake.snakeParts.remove(0);
                     }
                     snake.snakeParts.add(new Point(snake.head.x, snake.head.y));
@@ -72,13 +79,13 @@ public class Handler implements ActionListener, KeyListener {
             }
 
             Game.getInstance().isMovedToChangeDirection = true;
-            if (snake.snakeParts.size() > snake.tailLength) {
+            if (snake.snakeParts.size() > snake.getTailLength()) {
                 snake.snakeParts.remove(0);
             }
             if (snake.cherry != null) {
                 if (snake.head.equals(snake.cherry)) {
                     Game.getInstance().score += 10;
-                    snake.tailLength++;
+                    snake.setTailLength(snake.getTailLength() + 1);
                     // check if food appear on snake
                     boolean isFoodOnSnake = snake.snakeParts.size() == 0 ? false : true;
                     while (snake.head.equals(snake.cherry) || isFoodOnSnake) {
@@ -104,6 +111,11 @@ public class Handler implements ActionListener, KeyListener {
 
     }
 
+    /**
+     * Handles buttons A, S, D, W - snake movement
+     *                 SPACE - game pause and restart of game over.
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();

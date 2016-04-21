@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * This class is start point of the game. Call constructors of other classes and game starts.
+ */
 public class Game {
 
     private Snake snake;
@@ -42,6 +45,9 @@ public class Game {
         startGame();
     }
 
+    /**
+     * Function for resetting the game. Starts from beginning with
+     */
     public void startGame() {
         random = new Random();
         over = false;
@@ -53,6 +59,10 @@ public class Game {
         timer.start();
     }
 
+    /**
+     * Singleton implementation
+     * @return Static Game objects without initializing again.
+     */
     public static Game getInstance() {
         if (game == null) {
             game = new Game();
